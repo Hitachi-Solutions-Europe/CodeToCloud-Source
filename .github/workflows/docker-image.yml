@@ -1,7 +1,7 @@
-name: Publish Docker images to ACR v2
+name: PubACR v2
 on:
   push:
-      branches: [ master ] # Set which branch to trigger this flow, e.q. [ master, develop ]
+      branches: [ main ] # Set which branch to trigger this flow, e.q. [ master, develop ]
       
 env:
   IMAGE_NAME: fabrikam-api
