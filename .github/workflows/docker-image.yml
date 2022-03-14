@@ -1,0 +1,32 @@
+name: Publish Docker images to ACR
+on:
+  push:
+      branches: [ master ] # Set which branch to trigger this flow, e.q. [ master, develop ]
+      
+env:
+  IMAGE_NAME: fabrikam-api
+  IMAGE_TAG: latest
+  
+  
+jobs:
+  push_images_to_acr:
+    name: Push images to ACR
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Login to ACR
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_ENDPOINT }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - name: 'Build and push image'
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_ENDPOINT }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - run: |
+          docker build . -t ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker push ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
