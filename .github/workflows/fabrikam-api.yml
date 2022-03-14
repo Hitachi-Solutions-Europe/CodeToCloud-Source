@@ -7,6 +7,7 @@ env:
   IMAGE_NAME: fabrikam-api
   IMAGE_TAG: latest
   
+  
 jobs:
   push_images_to_acr:
     name: Push images to ACR
